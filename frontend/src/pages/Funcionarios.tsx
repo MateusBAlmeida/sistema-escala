@@ -7,7 +7,6 @@ import {
     Plus,
     Pencil,
     Trash2,
-    User2Icon,
     UsersIcon
 } from "lucide-react";
 
