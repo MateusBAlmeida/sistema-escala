@@ -15,7 +15,7 @@ export default class JsonRepository {
 
         try {
 
-            const data = await fs.readFile(this.file, "utf8");
+            const data = await fs.readFileSync(this.file, "utf8");
 
             return JSON.parse(data);
 
@@ -29,7 +29,7 @@ export default class JsonRepository {
 
     async write(data) {
 
-        await fs.writeFile(
+        await fs.writeFileSync(
             this.file,
             JSON.stringify(data, null, 4)
         );
