@@ -1,100 +1,130 @@
-import { promises as fs } from "fs";
-import { dirname } from "path";
+import fs from "fs";
+import path from "path";
 import { fileURLToPath } from "url";
-import { v4 as uuid } from "uuid";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-export default class JsonRepository {
+class JsonRepository {
 
     constructor(fileName) {
-        this.file = `${__dirname}/../data/${fileName}`;
+
+        this.fileName = fileName;
+
+        this.filePath = path.join(
+            __dirname,
+            "../data",
+            fileName
+        );
+
+        this.data = null;
     }
 
-    async read() {
+    load() {
+
+        if (this.data !== null) {
+            return;
+        }
 
         try {
 
-            const data = await fs.readFile(this.file, "utf8");
+            const file =
+                fs.readFileSync(
+                    this.filePath,
+                    "utf-8"
+                );
 
-            return JSON.parse(data);
+            this.data =
+                JSON.parse(file);
 
-        } catch {
+        } catch (error) {
 
-            return [];
+            console.error(
+                `Erro ao carregar ${this.fileName}:`,
+                error
+            );
+
+            this.data = [];
 
         }
 
     }
 
-    async write(data) {
+    findAll() {
 
-        await fs.writeFile(
-            this.file,
-            JSON.stringify(data, null, 4)
+        this.load();
+
+        return this.data;
+
+    }
+
+    findById(id) {
+
+        this.load();
+
+        return this.data.find(
+            item =>
+                item.id === id
         );
 
     }
 
-    async findAll() {
+    create(item) {
 
-        return await this.read();
+        this.load();
 
-    }
+        this.data.push(item);
 
-    async findById(id) {
-
-        const items = await this.read();
-
-        return items.find(item => item.id === id);
+        return item;
 
     }
 
-    async create(data) {
+    update(id, data) {
 
-        const items = await this.read();
+        this.load();
 
-        const novo = {
-            id: uuid(),
-            ...data
-        };
+        const index =
+            this.data.findIndex(
+                item =>
+                    item.id === id
+            );
 
-        items.push(novo);
-
-        await this.write(items);
-
-        return novo;
-
-    }
-
-    async update(id, data) {
-
-        const items = await this.read();
-
-        const index = items.findIndex(i => i.id === id);
-
-        if (index === -1)
+        if (index === -1) {
             return null;
+        }
 
-        items[index] = {
-            ...items[index],
+        this.data[index] = {
+            ...this.data[index],
             ...data
         };
 
-        await this.write(items);
-
-        return items[index];
+        return this.data[index];
 
     }
 
-    async delete(id) {
+    delete(id) {
 
-        const items = await this.read();
+        this.load();
 
-        const novos = items.filter(i => i.id !== id);
+        const index =
+            this.data.findIndex(
+                item =>
+                    item.id === id
+            );
 
-        await this.write(novos);
+        if (index === -1) {
+            return false;
+        }
+
+        this.data.splice(
+            index,
+            1
+        );
+
+        return true;
 
     }
 
 }
+
+export default JsonRepository;
