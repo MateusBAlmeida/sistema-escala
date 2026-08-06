@@ -1,6 +1,6 @@
-import funcionariosRepository from "../repositories/FuncionariosRepository.js";
-import feriasRepository from "../repositories/FeriasRepository.js";
-import escalasRepository from "../repositories/EscalasRepository.js";
+import funcionariosRepository from "../repositories/FuncionariosRepository.ts";
+import feriasRepository from "../repositories/FeriasRepository.ts";
+import escalasRepository from "../repositories/EscalasRepository.ts";
 
 import ScoreService from "./ScoreService.js";
 
@@ -91,7 +91,7 @@ class EscalaService {
     async gerar(dataInicial, quantidadeEscalas) {
 
         const funcionarios =
-            await funcionariosRepository.findAll();
+            await funcionariosRepository.listar();
 
         if (funcionarios.length === 0) {
 
@@ -140,7 +140,6 @@ class EscalaService {
 
             const escala = {
                 funcionarioId: escolhido.id,
-                funcionario: escolhido.nome,
                 inicio: periodo.inicio,
                 fim: periodo.fim,
                 diasUteis: periodo.diasUteis,
@@ -165,7 +164,7 @@ class EscalaService {
         // Salva histórico
         for (const escala of escalasGeradas) {
 
-            await escalasRepository.create(
+            await escalasRepository.criar(
                 escala
             );
 
@@ -174,7 +173,7 @@ class EscalaService {
         // Atualiza funcionários
         for (const funcionario of funcionarios) {
 
-            await funcionariosRepository.update(
+            await funcionariosRepository.atualizar(
                 funcionario.id,
                 {
                     totalEscalas:
@@ -192,14 +191,14 @@ class EscalaService {
 
     async listar() {
 
-        return await escalasRepository.findAll();
+        return await escalasRepository.listar();
 
     }
 
     async atualizar(id, dados) {
 
         const escala =
-            await escalasRepository.findById(id);
+            await escalasRepository.buscar(id);
 
         if (!escala) {
             return null;
@@ -210,9 +209,7 @@ class EscalaService {
             escala.funcionarioId;
 
         const funcionario =
-            await funcionariosRepository.findById(
-                funcionarioId
-            );
+            await funcionariosRepository.buscar(funcionarioId);
 
         if (!funcionario) {
 
@@ -250,7 +247,7 @@ class EscalaService {
 
         await this.recalcularEstatisticas();
 
-        return await escalasRepository.update(
+        return await escalasRepository.atualizar(
             id,
             atualizada
         );
@@ -260,13 +257,13 @@ class EscalaService {
     async excluir(id) {
 
         const escala =
-            await escalasRepository.findById(id);
+            await escalasRepository.buscar(id);
 
         if (!escala) {
             return false;
         }
 
-        await escalasRepository.delete(id);
+        await escalasRepository.excluir(id);
 
         await this.recalcularEstatisticas();
 
@@ -276,10 +273,10 @@ class EscalaService {
     async recalcularEstatisticas() {
 
         const funcionarios =
-            await funcionariosRepository.findAll();
+            await funcionariosRepository.listar();
 
         const escalas =
-            await escalasRepository.findAll();
+            await escalasRepository.listar();
 
         for (const funcionario of funcionarios) {
 
@@ -307,7 +304,7 @@ class EscalaService {
                     ].inicio
                     : null;
 
-            await funcionariosRepository.update(
+            await funcionariosRepository.atualizar(
                 funcionario.id,
                 {
                     totalEscalas:

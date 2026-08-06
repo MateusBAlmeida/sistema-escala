@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+model Funcionario {
+
+  id              String   @id @default(cuid())
+
+  nome            String
+
+  ativo           Boolean  @default(true)
+
+  totalEscalas    Int      @default(0)
+
+  ultimaEscala    DateTime?
+
+  createdAt       DateTime @default(now())
+
+  updatedAt       DateTime @updatedAt
+
+  escalas         Escala[]
+
+  ferias          Ferias[]
+
+}
+
+model Ferias {
+
+  id              String   @id @default(cuid())
+
+  inicio          DateTime
+
+  fim             DateTime
+
+  funcionarioId   String
+
+  funcionario     Funcionario @relation(fields: [funcionarioId], references: [id], onDelete: Cascade)
+
+}
+
+model Escala {
+
+  id              String   @id @default(cuid())
+
+  inicio          DateTime
+
+  fim             DateTime
+
+  diasUteis       Int
+
+  status          String
+
+  funcionarioId   String
+
+  funcionario     Funcionario @relation(fields: [funcionarioId], references: [id], onDelete: Cascade)
+
+  createdAt       DateTime @default(now())
+
+}
+

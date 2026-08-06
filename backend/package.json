@@ -7,13 +7,16 @@
     "start": "node src/server.js"
   },
   "dependencies": {
+    "@prisma/client": "^6.19.3",
     "cors": "^2.8.6",
     "dayjs": "^1.11.21",
     "express": "^5.2.1",
     "morgan": "^1.11.0",
+    "prisma": "^6.19.3",
     "uuid": "^14.0.1"
   },
   "devDependencies": {
+    "@types/node": "^26.1.2",
     "nodemon": "^3.1.14"
   }
 }

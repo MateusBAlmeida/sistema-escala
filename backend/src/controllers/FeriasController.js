@@ -1,5 +1,5 @@
-import feriasRepository from "../repositories/FeriasRepository.js";
-import funcionariosRepository from "../repositories/FuncionariosRepository.js";
+import feriasRepository from "../repositories/FeriasRepository.ts";
+import funcionariosRepository from "../repositories/FuncionariosRepository.ts";
 
 import {
     periodoValido,
@@ -13,10 +13,10 @@ class FeriasController {
         try {
 
             const registros =
-                await feriasRepository.findAll();
+                await feriasRepository.listar();
 
             const funcionarios =
-                await funcionariosRepository.findAll();
+                await funcionariosRepository.listar();
 
             const resultado = registros.map(registro => {
 
@@ -74,7 +74,7 @@ class FeriasController {
             }
 
             const funcionario =
-                await funcionariosRepository.findById(
+                await funcionariosRepository.buscar(
                     funcionarioId
                 );
 
@@ -95,7 +95,7 @@ class FeriasController {
             }
 
             const registros =
-                await feriasRepository.findAll();
+                await feriasRepository.listar();
 
             const conflito =
                 registros.find(registro =>
@@ -121,15 +121,13 @@ class FeriasController {
             }
 
             const nova =
-                await feriasRepository.create({
+                await feriasRepository.criar({
 
                     funcionarioId,
 
-                    inicio,
+                    inicio: new Date(inicio),
 
-                    fim,
-
-                    motivo: motivo.trim() || "Férias"
+                    fim: new Date(fim),
 
                 });
 
@@ -155,18 +153,18 @@ class FeriasController {
 
             const { id } = req.params;
 
-            const registro =
-                await feriasRepository.findById(id);
+            // const registro =
+            //     await feriasRepository.buscar(id);
 
-            if (!registro) {
+            // if (!registro) {
 
-                return res.status(404).json({
-                    erro: "Período de férias não encontrado."
-                });
+            //     return res.status(404).json({
+            //         erro: "Período de férias não encontrado."
+            //     });
 
-            }
+            // }
 
-            await feriasRepository.delete(id);
+            await feriasRepository.excluir(id);
 
             return res.status(204).send();
 

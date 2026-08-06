@@ -1,10 +1,10 @@
-import funcionariosRepository from "../repositories/FuncionariosRepository.js";
+import funcionariosRepository from "../repositories/FuncionariosRepository.ts";
 
 class FuncionariosController {
 
     async index(req, res, next) {
         try {
-            const funcionarios = await funcionariosRepository.findAll();
+            const funcionarios = await funcionariosRepository.listar();
 
             funcionarios.sort((a, b) => a.nome.localeCompare(b.nome));
 
@@ -19,7 +19,7 @@ class FuncionariosController {
 
         try {
 
-            const funcionario = await funcionariosRepository.findById(req.params.id);
+            const funcionario = await funcionariosRepository.buscar(req.params.id);
 
             if (!funcionario) {
                 return res.status(404).json({
@@ -47,19 +47,7 @@ class FuncionariosController {
                 });
             }
 
-            const novo = await funcionariosRepository.create({
-
-                nome,
-
-                ativo: true,
-
-                prioridade: 0,
-
-                ultimaEscala: null,
-
-                totalEscalas: 0
-
-            });
+            const novo = await funcionariosRepository.criar(nome);
 
             return res.status(201).json(novo);
 
@@ -75,7 +63,7 @@ class FuncionariosController {
 
         try {
 
-            const atualizado = await funcionariosRepository.update(
+            const atualizado = await funcionariosRepository.atualizar(
                 req.params.id,
                 req.body
             );
@@ -100,7 +88,7 @@ class FuncionariosController {
 
         try {
 
-            const funcionario = await funcionariosRepository.findById(req.params.id);
+            const funcionario = await funcionariosRepository.buscar(req.params.id);
 
             if (!funcionario) {
                 return res.status(404).json({
@@ -108,7 +96,7 @@ class FuncionariosController {
                 });
             }
 
-            await funcionariosRepository.delete(req.params.id);
+            await funcionariosRepository.excluir(req.params.id);
 
             return res.status(204).send();
 
