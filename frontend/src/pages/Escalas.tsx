@@ -32,7 +32,7 @@ function formatarData(data: string) {
 
     return new Date(
         `${data}T00:00:00`
-    ).toLocaleDateString("pt-BR");
+    ).toLocaleDateString("pt-BR", { timeZone: "UTC" });
 
 }
 
