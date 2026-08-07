@@ -315,8 +315,7 @@ class EscalaService {
                         funcionario.totalEscalas,
 
                     ultimaEscala:
-                        funcionario.ultimaEscala ?
-                            new Date(funcionario.ultimaEscala).toISOString() : null
+                        new Date(funcionario.ultimaEscala).toISOString().split("T")[0]
                 }
             );
         }
