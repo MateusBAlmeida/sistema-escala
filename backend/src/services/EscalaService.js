@@ -298,7 +298,7 @@ class EscalaService {
                         funcionario.totalEscalas,
 
                     ultimaEscala:
-                        funcionario.ultimaEscala
+                        funcionario.ultimaEscala.toDateString().split("T")[0]
                 }
             );
         }
