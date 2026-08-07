@@ -22,14 +22,6 @@ import {
     excluirFerias
 } from "../services/ferias";
 
-function formatarData(data: string) {
-
-    return new Date(
-        `${data}`
-    ).toLocaleDateString("pt-BR");
-
-}
-
 export default function Ferias() {
 
     const [
