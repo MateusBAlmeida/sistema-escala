@@ -1,4 +1,4 @@
-import type { Funcionario } from "./funcionario";
+import type { Funcionario } from "./funcionario.ts";
 
 export interface Escala {
     id: string;
