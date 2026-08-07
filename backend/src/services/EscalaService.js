@@ -256,13 +256,6 @@ class EscalaService {
 
     async excluir(id) {
 
-        const escala =
-            await escalasRepository.buscar(id);
-
-        if (!escala) {
-            return false;
-        }
-
         await escalasRepository.excluir(id);
 
         await this.recalcularEstatisticas();
