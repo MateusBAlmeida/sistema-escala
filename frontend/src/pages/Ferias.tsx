@@ -25,7 +25,7 @@ import {
 function formatarData(data: string) {
 
     return new Date(
-        `${data}T00:00:00`
+        `${data}`
     ).toLocaleDateString("pt-BR");
 
 }
