@@ -300,7 +300,7 @@ class EscalaService {
                     ultimaEscala:
                         new Date(
                             funcionario.ultimaEscala
-                        ).toISOString()
+                        ).toISOString().split("T")[0] || null
                 }
             );
         }
