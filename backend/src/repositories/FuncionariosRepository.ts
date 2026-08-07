@@ -46,7 +46,10 @@ class FuncionariosRepository {
                 id,
             },
 
-            data: dados,
+            data: {     
+                totalEscalas: dados.totalEscalas,
+                ultimaEscala: dados.ultimaEscala+"T00:00:00.000Z",
+            },
 
         });
 
