@@ -48,7 +48,7 @@ class FuncionariosRepository {
 
             data: {     
                 totalEscalas: dados.totalEscalas,
-                ultimaEscala: dados.ultimaEscala+"T00:00:00.000Z",
+                ultimaEscala: dados.ultimaEscala,
             },
 
         });
