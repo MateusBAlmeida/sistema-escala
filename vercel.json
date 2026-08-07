@@ -27,6 +27,13 @@
         "service": "frontend",
         "path": "/"
       }
+    },
+    {
+      "source": "/ferias",
+      "destination": {
+        "service": "frontend",
+        "path": "/ferias"
+      }
     }
   ]
 }
