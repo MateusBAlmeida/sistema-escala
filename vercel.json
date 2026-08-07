@@ -4,7 +4,8 @@
   "services": {
     "frontend": {
       "root": "frontend",
-      "framework": "vite"
+      "framework": "vite",
+      "outputDirectory": "dist"
     },
 
     "backend": {
@@ -20,11 +21,11 @@
         "service": "backend"
       }
     },
-
     {
       "source": "/(.*)",
       "destination": {
-        "service": "frontend"
+        "service": "frontend",
+        "path": "index.html"
       }
     }
   ]
