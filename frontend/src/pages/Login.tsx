@@ -1,7 +1,8 @@
 import {
-  FormEvent,
   useState,
 } from "react";
+
+import type { FormEvent } from "react";
 
 import {
   LockKeyhole,
