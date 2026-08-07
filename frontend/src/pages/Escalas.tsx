@@ -638,11 +638,7 @@ export default function Escalas() {
                                                 <div>
 
                                                     <h4 className="text-lg font-semibold">
-                                                        {funcionarios.find(
-                                                            f =>
-                                                                f.id ===
-                                                                escala.funcionarioId
-                                                        )?.nome}
+                                                        {escala.funcionario?.nome}
                                                     </h4>
 
                                                     <p className="text-sm text-slate-500">
