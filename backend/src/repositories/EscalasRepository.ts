@@ -36,7 +36,14 @@ class EscalasRepository {
 
         return prisma.escala.create({
 
-            data,
+            data: {
+                funcionarioId: data.funcionarioId,
+                funcionarioNome: data.funcionarioNome,
+                inicio: data.inicio+"T00:00:00.000Z",
+                fim: data.fim+"T00:00:00.000Z",
+                diasUteis: data.diasUteis,
+                status: data.status,
+            },
 
         });
 
