@@ -298,7 +298,12 @@ class EscalaService {
                         funcionario.totalEscalas,
 
                     ultimaEscala:
-                        funcionario.ultimaEscala.toDateString().split("T")[0]
+                        new Date(
+                            funcionario.ultimaEscala
+                        ).toISOString().split("T")[0] || null
+                }
+            );
+        }
                 }
             );
         }
