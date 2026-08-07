@@ -22,14 +22,6 @@ import {
     excluirFerias
 } from "../services/ferias";
 
-function formatarData(data: string) {
-
-    return new Date(
-        `${data}T00:00:00`
-    ).toLocaleDateString("pt-BR");
-
-}
-
 export default function Ferias() {
 
     const [
@@ -417,17 +409,13 @@ export default function Ferias() {
                                     <div className="mt-1 flex items-center gap-2 text-sm text-slate-500">
 
                                         <span>
-                                            {formatarData(
-                                                registro.inicio
-                                            )}
+                                            registro.inicio.trim()
                                         </span>
 
                                         <span>→</span>
 
                                         <span>
-                                            {formatarData(
-                                                registro.fim
-                                            )}
+                                            registro.fim.trim()
                                         </span>
 
                                     </div>
