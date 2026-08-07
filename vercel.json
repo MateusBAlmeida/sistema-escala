@@ -1,17 +1,23 @@
 {
-
-  "buildCommand": "npm run build",
-
-  "outputDirectory": "frontend/dist",
-
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/backend/src/app.js"
+    "services": {
+        "frontend": {
+            "root": "frontend",
+            "framework": "vite",
+            "outputDirectory": "dist"
+        },
+        "backend": {
+            "root": "backend",
+            "entrypoint": "src/app.js"
+        }
     },
-    {
-      "source": "/(.*)",
-      "destination": "/backend/src/app.js"
-    }
-  ]
+    "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "/backend/src/app.js"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/backend/src/app.js"
+        }
+    ]
 }
