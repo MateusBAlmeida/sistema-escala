@@ -457,7 +457,7 @@ export default function Escalas() {
                         <div className="mt-2">
 
                             <p className="text-xl font-bold">
-                                {proximaEscala.funcionario}
+                                {proximaEscala.funcionario.nome}
                             </p>
 
                             <p className="text-sm text-slate-500">
