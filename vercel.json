@@ -1,6 +1,4 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-
   "services": {
     "frontend": {
       "root": "frontend",
@@ -26,13 +24,6 @@
       "destination": {
         "service": "frontend",
         "path": "/"
-      }
-    },
-    {
-      "source": "/ferias",
-      "destination": {
-        "service": "frontend",
-        "path": "/pages/ferias"
       }
     }
   ]
