@@ -44,6 +44,23 @@ class FeriasRepository {
 
     }
 
+    async funcionarioEstaIndisponivel(funcionarioId: string, data: Date) {
+
+        const ferias = await prisma.ferias.findFirst({
+            where: {
+                funcionarioId,
+                inicio: {
+                    lte: data,
+                },
+                fim: {
+                    gte: data,
+                },
+            },
+        });
+
+        return ferias !== null;
+    }
+
 }
 
 export default new FeriasRepository();

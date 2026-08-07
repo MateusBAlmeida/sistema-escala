@@ -30,7 +30,7 @@ export default function Dashboard() {
 
             </div>
 
-            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            {/* <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
 
                 <StatCard
                     title="Funcionários"
@@ -60,7 +60,7 @@ export default function Dashboard() {
                     icon={CalendarOff}
                 />
 
-            </div>
+            </div> */}
 
             <div className="mt-8 grid gap-6 lg:grid-cols-3">
 
