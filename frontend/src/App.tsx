@@ -4,7 +4,13 @@ import {
     Route,
 } from "react-router-dom";
 
-import Layout from "./components/Layout";
+import { AuthProvider } from "./context/AuthContext";
+
+import ProtectedRoute from "./components/ProtectedRoute";
+
+import Login from "./pages/Login";
+
+//import Layout from "./components/Layout";
 
 import Dashboard from "./pages/Dashboard";
 import Funcionarios from "./pages/Funcionarios";
@@ -17,35 +23,45 @@ export default function App() {
 
         <BrowserRouter>
 
-            <Routes>
+            <AuthProvider>
 
-                <Route
-                    element={<Layout />}
-                >
+                <Routes>
 
+                    {/* Rota pública */}
                     <Route
-                        path="/"
-                        element={<Dashboard />}
+                        path="/login"
+                        element={<Login />}
                     />
 
                     <Route
-                        path="/funcionarios"
-                        element={<Funcionarios />}
-                    />
+                        element={<ProtectedRoute />}
+                    >
 
-                    <Route
-                        path="/ferias"
-                        element={<Ferias />}
-                    />
+                        <Route
+                            path="/"
+                            element={<Dashboard />}
+                        />
 
-                    <Route
-                        path="/escalas"
-                        element={<Escalas />}
-                    />
+                        <Route
+                            path="/funcionarios"
+                            element={<Funcionarios />}
+                        />
 
-                </Route>
+                        <Route
+                            path="/ferias"
+                            element={<Ferias />}
+                        />
 
-            </Routes>
+                        <Route
+                            path="/escalas"
+                            element={<Escalas />}
+                        />
+
+                    </Route>
+
+                </Routes>
+
+            </AuthProvider>
 
         </BrowserRouter>
 

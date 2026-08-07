@@ -5,10 +5,65 @@ import {
     Clock3,
     Users,
 } from "lucide-react";
+import { useState, useEffect } from "react";
+
+import type { Escala } from "../types/escala";
+import type { Funcionario } from "../types/funcionario";
+import type { Ferias } from "../types/ferias";
 
 import { Link } from "react-router-dom";
+import { listarFuncionarios } from "../services/funcionarios";
+import { listarEscalas } from "../services/escalas";
+import { listarFerias } from "../services/ferias";
 
 export default function Dashboard() {
+
+    const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
+    const [escalas, setEscalas] = useState<Escala[]>([]);
+    const [ferias, setFerias] = useState<Ferias[]>([]);
+
+    async function carregar() {
+        try {
+        const [
+            escalasData,
+            funcionariosData,
+            feriasData
+        ] = await Promise.all([
+            listarEscalas(),
+            listarFuncionarios(),
+            listarFerias()
+        ]);
+
+        setFuncionarios(funcionariosData);
+        setEscalas(escalasData);
+        setFerias(feriasData);
+
+        } catch (error) {
+            console.error("Erro ao carregar dados:", error);
+        }
+
+
+    }
+
+    useEffect(() => {
+        carregar();
+    }, []);
+
+    const proximaEscala =
+        [...escalas]
+            .filter(
+                escala =>
+                    escala.inicio >=
+                    new Date()
+                        .toISOString()
+                        .slice(0, 10)
+            )
+            .sort(
+                (a, b) =>
+                    a.inicio.localeCompare(
+                        b.inicio
+                    )
+            )[0];
 
     return (
 
@@ -34,28 +89,27 @@ export default function Dashboard() {
 
                 <StatCard
                     title="Funcionários"
-                    value="0"
+                    value={funcionarios.length}
                     description="Funcionários ativos"
                     icon={Users}
                 />
 
                 <StatCard
                     title="Escalas"
-                    value="0"
+                    value={escalas.length}
                     description="Escalas cadastradas"
                     icon={CalendarDays}
                 />
 
                 <StatCard
-                    title="Em andamento"
-                    value="0"
-                    description="Escalas atualmente"
+                    title="Próxima escala"
+                    value={proximaEscala ? proximaEscala.funcionario.nome : "Nenhuma"}
                     icon={Clock3}
                 />
 
                 <StatCard
                     title="Férias"
-                    value="0"
+                    value={ferias.length}
                     description="Períodos cadastrados"
                     icon={CalendarOff}
                 />
@@ -64,58 +118,6 @@ export default function Dashboard() {
 
             <div className="mt-8 grid gap-6 lg:grid-cols-3">
 
-                <div className="rounded-2xl border border-slate-200 bg-white p-6 lg:col-span-2">
-
-                    <div className="mb-6 flex items-center justify-between">
-
-                        <div>
-
-                            <h3 className="font-semibold text-slate-900">
-                                Próximas escalas
-                            </h3>
-
-                            <p className="mt-1 text-sm text-slate-500">
-                                Acompanhe os próximos períodos.
-                            </p>
-
-                        </div>
-
-                        <Link
-                            to="/escalas"
-                            className="flex items-center gap-1 text-sm font-medium text-slate-700 hover:text-slate-950"
-                        >
-                            Ver todas
-
-                            <ChevronRight
-                                size={16}
-                            />
-
-                        </Link>
-
-                    </div>
-
-                    <div className="flex min-h-52 items-center justify-center rounded-xl border border-dashed border-slate-200">
-
-                        <div className="text-center">
-
-                            <CalendarDays
-                                className="mx-auto mb-3 text-slate-300"
-                                size={32}
-                            />
-
-                            <p className="font-medium text-slate-600">
-                                Nenhuma escala programada
-                            </p>
-
-                            <p className="mt-1 text-sm text-slate-400">
-                                Gere uma nova escala para começar.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
 
                 <div className="rounded-2xl border border-slate-200 bg-white p-6">
 

@@ -63,3 +63,20 @@ model Escala {
 
 }
 
+model Usuario {
+
+  id          String   @id @default(cuid())
+
+  nome        String
+
+  username    String   @unique
+
+  senha       String
+
+  ativo       Boolean  @default(true)
+
+  createdAt   DateTime @default(now())
+
+  updatedAt   DateTime @updatedAt
+}
+
