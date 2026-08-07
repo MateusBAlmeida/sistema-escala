@@ -279,12 +279,6 @@ class EscalaService {
                         escala =>
                             escala.funcionarioId ===
                             funcionario.id
-                    )
-                    .sort(
-                        (a, b) =>
-                            a.inicio.localeCompare(
-                                b.inicio
-                            )
                     );
 
             funcionario.totalEscalas =
