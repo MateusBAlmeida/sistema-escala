@@ -10,7 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 import Login from "./pages/Login";
 
-//import Layout from "./components/Layout";
+import Layout from "./components/Layout";
 
 import Dashboard from "./pages/Dashboard";
 import Funcionarios from "./pages/Funcionarios";
@@ -36,26 +36,31 @@ export default function App() {
                     <Route
                         element={<ProtectedRoute />}
                     >
-
                         <Route
-                            path="/"
-                            element={<Dashboard />}
-                        />
+                            element={<Layout />}
+                        >
 
-                        <Route
-                            path="/funcionarios"
-                            element={<Funcionarios />}
-                        />
+                            <Route
+                                path="/"
+                                element={<Dashboard />}
+                            />
 
-                        <Route
-                            path="/ferias"
-                            element={<Ferias />}
-                        />
+                            <Route
+                                path="/funcionarios"
+                                element={<Funcionarios />}
+                            />
 
-                        <Route
-                            path="/escalas"
-                            element={<Escalas />}
-                        />
+                            <Route
+                                path="/ferias"
+                                element={<Ferias />}
+                            />
+
+                            <Route
+                                path="/escalas"
+                                element={<Escalas />}
+                            />
+
+                        </Route>
 
                     </Route>
 
