@@ -298,7 +298,7 @@ class EscalaService {
                         funcionario.totalEscalas,
 
                     ultimaEscala:
-                        funcionario.ultimaEscala.getUTCDate() === 1
+                        funcionario.ultimaEscala.toLocaleDateString("pt-BR", { timeZone: "UTC" })
                 }
             );
         }
