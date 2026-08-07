@@ -50,10 +50,10 @@ class FeriasRepository {
             where: {
                 funcionarioId,
                 inicio: {
-                    lte: data,
+                    lte: data+"T00:00:00.000Z",
                 },
                 fim: {
-                    gte: data,
+                    gte: data+"T00:00:00.000Z",
                 },
             },
         });
