@@ -14,7 +14,7 @@ class EscalaService {
 
     async buscarFuncionariosElegiveis(
         funcionarios,
-        data,
+        periodo,
         ultimaPessoaId
     ) {
 
@@ -22,25 +22,32 @@ class EscalaService {
 
         for (const funcionario of funcionarios) {
 
-            // Funcionário inativo
             if (!funcionario.ativo) {
                 continue;
             }
 
-            // Não repetir consecutivamente
             if (funcionario.id === ultimaPessoaId) {
                 continue;
             }
 
-            // Verifica férias
-            const indisponivel =
+            const indisponivelInicio =
                 await feriasRepository
                     .funcionarioEstaIndisponivel(
                         funcionario.id,
-                        data
+                        periodo.inicio
                     );
 
-            if (indisponivel) {
+            const indisponivelFim =
+                await feriasRepository
+                    .funcionarioEstaIndisponivel(
+                        funcionario.id,
+                        periodo.fim
+                    );
+
+            if (
+                indisponivelInicio ||
+                indisponivelFim
+            ) {
                 continue;
             }
 
@@ -50,42 +57,53 @@ class EscalaService {
         return elegiveis;
     }
 
-    selecionarFuncionario(
-        funcionarios,
-        ultimaPessoaId,
-        data
-    ) {
+    selecionarFuncionario(funcionarios, ultimaPessoaId) {
 
         const avaliados = funcionarios.map(funcionario => {
 
-            const score =
-                ScoreService.calcular(
-                    funcionario,
-                    ultimaPessoaId,
-                    data
-                );
+            const totalEscalas =
+                funcionario.totalEscalas || 0;
+
+            const ultimaEscala =
+                funcionario.ultimaEscala
+                    ? new Date(funcionario.ultimaEscala).getTime()
+                    : 0;
 
             return {
                 funcionario,
-                score
+                totalEscalas,
+                ultimaEscala
             };
-
         });
 
         avaliados.sort((a, b) => {
 
-            if (b.score !== a.score) {
-                return b.score - a.score;
+            // 1. Menor quantidade de escalas primeiro
+            if (a.totalEscalas !== b.totalEscalas) {
+                return a.totalEscalas - b.totalEscalas;
             }
 
-            return a.funcionario.nome
-                .localeCompare(
-                    b.funcionario.nome
-                );
+            // 2. Quem nunca recebeu escala primeiro
+            if (a.ultimaEscala === 0 && b.ultimaEscala !== 0) {
+                return -1;
+            }
 
+            if (b.ultimaEscala === 0 && a.ultimaEscala !== 0) {
+                return 1;
+            }
+
+            // 3. Quem está há mais tempo sem escala
+            if (a.ultimaEscala !== b.ultimaEscala) {
+                return a.ultimaEscala - b.ultimaEscala;
+            }
+
+            // 4. Critério determinístico
+            return a.funcionario.nome.localeCompare(
+                b.funcionario.nome
+            );
         });
 
-        return avaliados[0].funcionario;
+        return avaliados[0]?.funcionario ?? null;
     }
 
     async gerar(dataInicial, quantidadeEscalas) {
@@ -119,7 +137,7 @@ class EscalaService {
             const elegiveis =
                 await this.buscarFuncionariosElegiveis(
                     funcionarios,
-                    periodo.inicio,
+                    periodo,
                     ultimaPessoaId
                 );
 
@@ -134,8 +152,7 @@ class EscalaService {
             const escolhido =
                 this.selecionarFuncionario(
                     elegiveis,
-                    ultimaPessoaId,
-                    periodo.inicio
+                    ultimaPessoaId
                 );
 
             const escala = {
@@ -298,9 +315,8 @@ class EscalaService {
                         funcionario.totalEscalas,
 
                     ultimaEscala:
-                        new Date(
-                            funcionario.ultimaEscala
-                        ).toISOString().split("T")[0] || null
+                        funcionario.ultimaEscala ?
+                            new Date(funcionario.ultimaEscala).toISOString() : null
                 }
             );
         }
