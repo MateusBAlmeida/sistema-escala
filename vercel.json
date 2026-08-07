@@ -32,7 +32,7 @@
       "source": "/ferias",
       "destination": {
         "service": "frontend",
-        "path": "/ferias"
+        "path": "/pages/ferias"
       }
     }
   ]
