@@ -88,14 +88,6 @@ class FuncionariosController {
 
         try {
 
-            const funcionario = await funcionariosRepository.buscar(req.params.id);
-
-            if (!funcionario) {
-                return res.status(404).json({
-                    erro: "Funcionário não encontrado."
-                });
-            }
-
             await funcionariosRepository.excluir(req.params.id);
 
             return res.status(204).send();

@@ -298,7 +298,7 @@ class EscalaService {
                         funcionario.totalEscalas,
 
                     ultimaEscala:
-                        funcionario.ultimaEscala
+                        funcionario.ultimaEscala.getUTCDate() === 1
                 }
             );
         }
