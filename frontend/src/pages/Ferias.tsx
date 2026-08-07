@@ -417,17 +417,13 @@ export default function Ferias() {
                                     <div className="mt-1 flex items-center gap-2 text-sm text-slate-500">
 
                                         <span>
-                                            {formatarData(
-                                                registro.inicio
-                                            )}
+                                            registro.inicio
                                         </span>
 
                                         <span>→</span>
 
                                         <span>
-                                            {formatarData(
-                                                registro.fim
-                                            )}
+                                            registro.fim
                                         </span>
 
                                     </div>
