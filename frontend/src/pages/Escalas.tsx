@@ -288,7 +288,7 @@ export default function Escalas() {
 
         const confirmar =
             window.confirm(
-                `Excluir a escala?`
+                `Excluir a escala de ${escala.funcionario?.nome}?`
             );
 
         if (!confirmar) {
