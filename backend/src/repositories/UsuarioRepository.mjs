@@ -1,4 +1,4 @@
-import prisma from "../lib/prisma.mjs";
+import prisma from "../lib/prisma.ts";
 
 class UsuarioRepository {
 
