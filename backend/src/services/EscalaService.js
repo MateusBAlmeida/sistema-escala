@@ -98,9 +98,7 @@ class EscalaService {
             }
 
             // 4. Critério determinístico
-            return a.funcionario.nome.localeCompare(
-                b.funcionario.createdAt
-            );
+            return a.funcionario.createdAt - b.funcionario.createdAt;
         });
 
         return avaliados[0]?.funcionario ?? null;
