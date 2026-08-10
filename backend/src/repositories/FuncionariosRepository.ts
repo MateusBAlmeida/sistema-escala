@@ -7,7 +7,7 @@ class FuncionariosRepository {
         return prisma.funcionario.findMany({
 
             orderBy: {
-                nome: "asc",
+                createdAt: "asc",
             },
 
         });

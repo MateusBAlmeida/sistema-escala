@@ -6,7 +6,7 @@ class FuncionariosController {
         try {
             const funcionarios = await funcionariosRepository.listar();
 
-            funcionarios.sort((a, b) => b.createdAt - a.createdAt);
+            funcionarios.sort((a, b) => a.createdAt - b.createdAt);
 
             return res.json(funcionarios);
 
