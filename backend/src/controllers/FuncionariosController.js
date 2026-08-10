@@ -6,7 +6,7 @@ class FuncionariosController {
         try {
             const funcionarios = await funcionariosRepository.listar();
 
-            funcionarios.sort((a, b) => a.nome.localeCompare(b.nome));
+            funcionarios.sort((a, b) => b.createdAt - a.createdAt);
 
             return res.json(funcionarios);
 
