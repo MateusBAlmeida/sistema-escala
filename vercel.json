@@ -1,30 +1,8 @@
 {
-  "services": {
-    "frontend": {
-      "root": "frontend",
-      "framework": "vite",
-      "outputDirectory": "dist"
-    },
-
-    "backend": {
-      "root": "backend",
-      "entrypoint": "src/app.js"
-    }
-  },
-
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": {
-        "service": "backend"
-      }
-    },
-    {
       "source": "/(.*)",
-      "destination": {
-        "service": "frontend",
-        "path": "/"
-      }
+      "destination": "/index.html"
     }
   ]
 }
